@@ -1,0 +1,32 @@
+<aura:component controller="CarTypeSearch" implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+	
+    
+    <aura:attribute name="buttonLabel" type="String" default="Search"/>  <!-- Displaying title of search button-->
+    <aura:attribute name="newLabel" type="String" default="New Button"/> <!-- Displaying title of new button-->
+    <aura:attribute name="showNew" type="boolean" default="false"/>      <!-- Based on this attribute value new button is shown-->
+    <aura:attribute name="carTypes" type="Car_Type__c[]"/> 
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <!--<aura:handler name="render" value="{!this}" action="{!c.handleRender}"/>-->
+    
+    <lightning:layout horizontalAlign ="center">
+        <lightning:layoutItem padding="around-medium" >
+            <lightning:select name="selectItem" aura:id="carTypeList" label="All types" 
+                              variant="label-hidden" value="Sports car" onchange="{!c.newValueSelected}">
+                <option value="" text="All values"/>
+                <aura:iteration items="{!v.carTypes}" var="ct">
+                    <option value="{!ct.Name}" text="{!ct.Name}" />
+                </aura:iteration>
+            </lightning:select>
+        </lightning:layoutItem>
+        
+        <lightning:layoutItem padding="around-medium">
+            
+            <lightning:button label="{!v.buttonLabel}" variant="brand" onclick= "{!c.onSearchClick}"/>
+            <aura:if isTrue="{!v.showNew}">
+                <lightning:button label="{#v.newLabel}" variant="Neutral" onclick ="{!c.createRecord}"/>
+            </aura:if>  
+            
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>
